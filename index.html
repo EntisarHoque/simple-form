@@ -1,0 +1,41 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>JS Form</title>
+  </head>
+  <body>
+    <div>
+      <!-- Input -->
+      <input
+        type="text"
+        placeholder="Enter your Username"
+        id="username"
+      /><br /><br />
+      <input type="password" placeholder="Enter your Password" id="password" />
+      <!-- Button -->
+      <button onclick="logingsystem()">Login</button>
+    </div>
+    <script>
+      function logingsystem() {
+        var username = document.getElementById("username").value;
+        var password = document.getElementById("password").value;
+
+        //Database
+        var regUsername = "admin";
+        var regPass = "1234";
+
+        //Condition
+        if (username == regUsername && password == regPass) {
+          location.replace("https://www.youtube.com");
+        } else if (username != regUsername && password != regPass) {
+          document.write("Invalid Username & Password");
+        } else if (username != regUsername && password == regPass) {
+          document.write("Invalid Username");
+        } else if (username == regUsername && password != regPass) {
+          document.write("Invalid Password");
+        }
+      }
+    </script>
+  </body>
+</html>
