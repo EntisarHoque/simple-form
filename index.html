@@ -1,40 +1,154 @@
+<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>JS Form</title>
+    <title>Enhanced Login Form</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+        background: linear-gradient(135deg, #007bff, #00c6ff);
+        color: #333;
+      }
+      .form-container {
+        background: #fff;
+        padding: 2rem;
+        border-radius: 12px;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+        width: 100%;
+        max-width: 400px;
+      }
+      .form-container label {
+        font-weight: bold;
+        margin-bottom: 0.5rem;
+        display: block;
+      }
+      .form-container input {
+        width: 93%;
+        padding: 0.8rem;
+        margin-bottom: 1rem;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+        font-size: 1rem;
+        transition: border-color 0.3s ease;
+      }
+      .form-container input:focus {
+        border-color: #007bff;
+        outline: none;
+      }
+      .form-container button {
+        width: 100%;
+        padding: 0.8rem;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 6px;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+      }
+      .form-container button:hover {
+        background-color: #0056b3;
+      }
+      .form-container .error {
+        color: red;
+        font-size: 0.9rem;
+        margin-bottom: 1rem;
+      }
+      .form-container .success {
+        color: green;
+        font-size: 0.9rem;
+        margin-bottom: 1rem;
+      }
+    </style>
   </head>
   <body>
-    <div>
-      <!-- Input -->
-      <input
-        type="text"
-        placeholder="Enter your Username"
-        id="username"
-      /><br /><br />
-      <input type="password" placeholder="Enter your Password" id="password" />
-      <!-- Button -->
-      <button onclick="logingsystem()">Login</button>
+    <div class="form-container">
+      <label for="username">Username</label>
+      <input type="text" id="username" placeholder="Enter your Username" />
+      <label for="password">Password</label>
+      <input type="password" id="password" placeholder="Enter your Password" />
+      <button onclick="loginsystem()">Login</button>
+      <p
+        id="error-message"
+        class="error"
+        role="alert"
+        aria-live="assertive"
+      ></p>
+      <p
+        id="success-message"
+        class="success"
+        role="status"
+        aria-live="polite"
+      ></p>
     </div>
+
     <script>
-      function logingsystem() {
-        var username = document.getElementById("username").value;
-        var password = document.getElementById("password").value;
+      const redirectUrl = "https://www.youtube.com"; // Configurable redirect URL
 
-        //Database
-        var regUsername = "admin";
-        var regPass = "1234";
+      function loginsystem() {
+        const username = document.getElementById("username");
+        const password = document.getElementById("password");
+        const errorMessage = document.getElementById("error-message");
+        const successMessage = document.getElementById("success-message");
 
-        //Condition
-        if (username == regUsername && password == regPass) {
-          location.replace("https://www.youtube.com");
-        } else if (username != regUsername && password != regPass) {
-          document.write("Invalid Username & Password");
-        } else if (username != regUsername && password == regPass) {
-          document.write("Invalid Username");
-        } else if (username == regUsername && password != regPass) {
-          document.write("Invalid Password");
+        // Database (simulated for demo purposes)
+        const credentials = {
+          username: "admin",
+          password: "1234",
+        };
+
+        // Clear previous error message and success message
+        errorMessage.textContent = "";
+        successMessage.textContent = "";
+        username.style.borderColor = "#ccc";
+        password.style.borderColor = "#ccc";
+
+        // Check if fields are empty
+        if (!username.value.trim() || !password.value.trim()) {
+          errorMessage.textContent = "Both fields are required.";
+          if (!username.value.trim()) {
+            username.style.borderColor = "red";
+          }
+          if (!password.value.trim()) {
+            password.style.borderColor = "red";
+          }
+          return;
         }
+
+        // Login logic
+        if (
+          username.value.trim() === credentials.username &&
+          password.value.trim() === credentials.password
+        ) {
+          successMessage.textContent = "Login successful! Redirecting...";
+          // Clear the inputs and redirect after a delay
+          setTimeout(() => {
+            window.location.href = redirectUrl;
+          }, 2000); // Delay of 2 seconds for better user experience
+        } else {
+          if (username.value.trim() !== credentials.username) {
+            errorMessage.textContent = "Invalid Username.";
+            username.style.borderColor = "red";
+          }
+          if (password.value.trim() !== credentials.password) {
+            if (errorMessage.textContent) {
+              errorMessage.textContent += " & Invalid Password.";
+            } else {
+              errorMessage.textContent = "Invalid Password.";
+            }
+            password.style.borderColor = "red";
+          }
+        }
+
+        // Optionally, clear the input fields after a failed login attempt
+        username.value = "";
+        password.value = "";
       }
     </script>
   </body>
